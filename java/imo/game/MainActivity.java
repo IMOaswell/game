@@ -14,7 +14,7 @@ public class MainActivity extends Activity{
         root.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                _DebugMenu.showDebug(MainActivity.this, v);
+                _DebugMenu.show(MainActivity.this, v);
             }
         });
     }

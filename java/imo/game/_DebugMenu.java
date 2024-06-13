@@ -8,7 +8,7 @@ import android.widget.PopupWindow;
 
 public class _DebugMenu {
     
-    static void showDebug(Context mContext, View anchor){
+    static void show(Context mContext, View anchor){
         final int MATCH_PARENT = LinearLayout.LayoutParams.MATCH_PARENT;
 
         LinearLayout layout = new LinearLayout(mContext);
