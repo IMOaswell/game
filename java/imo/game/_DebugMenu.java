@@ -6,12 +6,18 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
-public class _DebugMenu {
-    
-    static void show(Context mContext, View anchor){
+public class _DebugMenu{
+    static PopupWindow popupWindow;
+    private static LinearLayout layout;
+
+    static void show(Context mContext,View anchor){
+        if(layout != null){
+            popupWindow.showAsDropDown(anchor, 0, 0);
+            return;
+        }
         final int MATCH_PARENT = LinearLayout.LayoutParams.MATCH_PARENT;
 
-        LinearLayout layout = new LinearLayout(mContext);
+        layout = new LinearLayout(mContext);
         layout.setLayoutParams(new LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT));
         layout.setOrientation(LinearLayout.VERTICAL);
 
@@ -24,8 +30,8 @@ public class _DebugMenu {
         button2.setLayoutParams(childParams);
         layout.addView(button2);
 
-        final PopupWindow popupWindow = new PopupWindow(layout, 200, 200, true);
-        popupWindow.showAsDropDown(anchor, 0, 0);
+        if(popupWindow == null)
+            popupWindow = new PopupWindow(layout, 200, 200, true);
 
         button1.setOnClickListener(new View.OnClickListener(){
                 @Override
@@ -39,6 +45,8 @@ public class _DebugMenu {
                     popupWindow.dismiss();
                 }
             });
+
+        popupWindow.showAsDropDown(anchor, 0, 0);
     }
-    
+
 }
