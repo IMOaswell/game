@@ -24,11 +24,10 @@ public class MainActivity extends Activity{
     }
     
     void showDebug(Context mContext, View anchor){
-        final int WRAP_CONTENT = LinearLayout.LayoutParams.WRAP_CONTENT;
         final int MATCH_PARENT = LinearLayout.LayoutParams.MATCH_PARENT;
         
         LinearLayout layout = new LinearLayout(mContext);
-        layout.setLayoutParams(new LinearLayout.LayoutParams(200, 200));
+        layout.setLayoutParams(new LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT));
         layout.setOrientation(LinearLayout.VERTICAL);
         
         LinearLayout.LayoutParams childParams = new LinearLayout.LayoutParams(MATCH_PARENT, 0, 1.0f);
@@ -40,7 +39,7 @@ public class MainActivity extends Activity{
         button2.setLayoutParams(childParams);
         layout.addView(button2);
         
-        final PopupWindow popupWindow = new PopupWindow(layout, WRAP_CONTENT, WRAP_CONTENT, true);
+        final PopupWindow popupWindow = new PopupWindow(layout, 200, 200, true);
         popupWindow.showAsDropDown(anchor, 0, 0);
         
         button1.setOnClickListener(new View.OnClickListener(){
