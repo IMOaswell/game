@@ -1,11 +1,12 @@
 package imo.game;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.PopupMenu;
-import android.view.MenuItem;
-import android.widget.Toast;
+import android.widget.LinearLayout;
+import android.widget.Button;
+import android.widget.PopupWindow;
 
 public class MainActivity extends Activity{
     @Override
@@ -17,26 +18,42 @@ public class MainActivity extends Activity{
         root.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                showDropdown(v);
+                showDebug(MainActivity.this, v);
             }
         });
     }
     
-    void showDropdown(View anchor){
-        PopupMenu popupMenu = new PopupMenu(MainActivity.this, anchor);
-        popupMenu.getMenu().add(0, 1, 0, "hi world:D");
-        popupMenu.getMenu().add(0, 2, 1, "hi world:D");
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener(){
+    void showDebug(Context mContext, View anchor){
+        final int WRAP_CONTENT = LinearLayout.LayoutParams.WRAP_CONTENT;
+        final int MATCH_PARENT = LinearLayout.LayoutParams.MATCH_PARENT;
+        
+        LinearLayout layout = new LinearLayout(mContext);
+        layout.setLayoutParams(new LinearLayout.LayoutParams(200, 200));
+        layout.setOrientation(LinearLayout.VERTICAL);
+        
+        LinearLayout.LayoutParams childParams = new LinearLayout.LayoutParams(MATCH_PARENT, 0, 1.0f);
+        Button button1 = new Button(mContext);
+        button1.setLayoutParams(childParams);
+        layout.addView(button1);
+        
+        Button button2 = new Button(mContext);
+        button2.setLayoutParams(childParams);
+        layout.addView(button2);
+        
+        final PopupWindow popupWindow = new PopupWindow(layout, WRAP_CONTENT, WRAP_CONTENT, true);
+        popupWindow.showAsDropDown(anchor, 0, 0);
+        
+        button1.setOnClickListener(new View.OnClickListener(){
             @Override
-            public boolean onMenuItemClick(MenuItem item){
-                switch(item.getItemId()){
-                    case 1:
-                        Toast.makeText(MainActivity.this, "hallo:D", Toast.LENGTH_SHORT).show();
-                        return true;
-                }
-                return false;
+            public void onClick(View v){
+                popupWindow.dismiss();
             }
         });
-        popupMenu.show();
+        button2.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    popupWindow.dismiss();
+                }
+            });
     }
 }
