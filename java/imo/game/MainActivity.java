@@ -25,6 +25,7 @@ public class MainActivity extends Activity{
                     x -= viewCenter;
                     if(x < 0) resId = R.drawable.card_left;
                     if(x > 0) resId = R.drawable.card_right;
+                    if(resId == -1) resId = R.drawable.card_transparent;
                     v.setBackgroundResource(resId);
                 }
                 if(MotionEvent.ACTION_UP == motion.getAction()){
