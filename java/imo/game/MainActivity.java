@@ -5,13 +5,17 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.widget.TextView;
 
 public class MainActivity extends Activity{
+    TextView textview;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-
+        
+        textview = findViewById(R.id.textview);
         View root = findViewById(R.id.root);
         root.setBackgroundResource(R.drawable.card_transparent);
         root.setOnTouchListener(new OnTouchListener(){
