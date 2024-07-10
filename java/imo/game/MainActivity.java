@@ -29,8 +29,14 @@ public class MainActivity extends Activity{
 
                         x -= viewCenter;
 
-                        if(x < -CENTER_NO_TOUCH_AREA) resId = R.drawable.card_left;
-                        if(x > CENTER_NO_TOUCH_AREA) resId = R.drawable.card_right;
+                        if(x < -CENTER_NO_TOUCH_AREA){
+                            resId = R.drawable.card_left;
+                            triggerNo();
+                        } 
+                        if(x > CENTER_NO_TOUCH_AREA){
+                            resId = R.drawable.card_right;
+                            triggerYes();
+                        }
                         if(resId == -1) resId = R.drawable.card_solid;
                         v.setBackgroundResource(resId);
                     }
@@ -40,5 +46,13 @@ public class MainActivity extends Activity{
                     return true;
                 }
             });
+    }
+    
+    void triggerYes(){
+        textview.setText("Yes");
+    }
+    
+    void triggerNo(){
+        textview.setText("No");
     }
 }
