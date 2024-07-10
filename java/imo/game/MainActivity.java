@@ -15,6 +15,7 @@ public class MainActivity extends Activity{
         View root = findViewById(R.id.root);
         root.setBackgroundResource(R.drawable.card_transparent);
         root.setOnTouchListener(new OnTouchListener(){
+            final int TOUCH_SAFE_PADDING = 10;
             @Override
             public boolean onTouch(View v, MotionEvent motion){
                 if(MotionEvent.ACTION_MOVE == motion.getAction()){
@@ -23,8 +24,8 @@ public class MainActivity extends Activity{
                     int resId = -1;
                     
                     x -= viewCenter;
-                    if(x < 0) resId = R.drawable.card_left;
-                    if(x > 0) resId = R.drawable.card_right;
+                    if(x < -TOUCH_SAFE_PADDING) resId = R.drawable.card_left;
+                    if(x > TOUCH_SAFE_PADDING) resId = R.drawable.card_right;
                     if(resId == -1) resId = R.drawable.card_transparent;
                     v.setBackgroundResource(resId);
                 }
