@@ -15,7 +15,7 @@ public class MainActivity extends Activity{
         View root = findViewById(R.id.root);
         root.setBackgroundResource(R.drawable.card_transparent);
         root.setOnTouchListener(new OnTouchListener(){
-            final int CENTER_NO_TOUCH_AREA = 10;
+            final int CENTER_NO_TOUCH_AREA = 75;
             @Override
             public boolean onTouch(View v, MotionEvent motion){
                 if(MotionEvent.ACTION_MOVE == motion.getAction()){
