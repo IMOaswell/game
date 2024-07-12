@@ -3,5 +3,11 @@
 
     <string name="app_name">game</string>
     <string name="hello_world">Hello world!</string>
-
+    <string name="story_script">"
+*tweet tweet*
+a bird on the ground looking at u
+it flaps away
+do u wanna follow it?
+no\t\t\tok
+        "</string>
 </resources>

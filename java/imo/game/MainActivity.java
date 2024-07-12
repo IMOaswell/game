@@ -6,9 +6,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.TextView;
+import java.util.List;
+import java.util.Arrays;
 
 public class MainActivity extends Activity{
     TextView textview;
+    int scriptIndex = 0;
     
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -17,7 +20,30 @@ public class MainActivity extends Activity{
         
         textview = findViewById(R.id.textview);
         View root = findViewById(R.id.root);
+        String story_script = getString(R.string.story_script);
+        List<String> storyScript;
+        
+        story_script = story_script.trim();
+        storyScript = Arrays.asList(story_script.split("\n"));
+        
+        final List<String> script = storyScript;
+        
+        root.setOnTouchListener(new OnTouchListener(){
+                @Override
+                public boolean onTouch(View v,MotionEvent motion){
+                    if(MotionEvent.ACTION_DOWN != motion.getAction()) return true;
+                    if(scriptIndex > script.size() - 1) return true;
+                    
+                    textview.setText(script.get(scriptIndex));
+                    scriptIndex++;
+                    return true;
+                }
+            });
+        
         root.setBackgroundResource(R.drawable.card_transparent);
+        
+        if(true) return;
+        
         root.setOnTouchListener(new OnTouchListener(){
                 final int CENTER_NO_TOUCH_AREA = 75;
                 @Override
