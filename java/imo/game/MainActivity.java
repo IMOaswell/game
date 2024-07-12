@@ -34,8 +34,16 @@ public class MainActivity extends Activity{
                     if(MotionEvent.ACTION_DOWN != motion.getAction()) return true;
                     if(scriptIndex > script.size() - 1) return true;
                     
-                    textview.setText(script.get(scriptIndex));
+                    String string = script.get(scriptIndex);
                     scriptIndex++;
+                    
+                    boolean isCommand = string.startsWith(Command.PREFIX);
+                    if(!isCommand)
+                        textview.setText(string);
+                        
+                    if(Command.isCommand(Command.CHOICES, string)){
+                        Command.runChoices(string, textview);
+                    }
                     return true;
                 }
             });
@@ -80,5 +88,21 @@ public class MainActivity extends Activity{
     
     void triggerNo(){
         textview.setText("No");
+    }
+    
+    static class Command{
+        final static String PREFIX = "/";
+        final static String CHOICES = PREFIX + "choices";
+        static boolean isCommand(String command, String input){
+            return input.startsWith(command);
+        }
+        static void runChoices(String string, TextView textview){
+            string = string.substring((CHOICES + '=').length());
+            
+            String noString = string.substring(0, string.indexOf(':')).trim();
+            String yesString = string.substring(string.indexOf(':') + 1).trim();
+            textview.append("\n");
+            textview.append(noString + "\t\t\t" + yesString);
+        }
     }
 }

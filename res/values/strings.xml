@@ -8,6 +8,6 @@
 a bird on the ground looking at u
 it flaps away
 do u wanna follow it?
-no\t\t\tok
+/choices=no:ok
         "</string>
 </resources>
