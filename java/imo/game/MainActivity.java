@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,12 +26,11 @@ public class MainActivity extends Activity{
         String story_script = getString(R.string.story_script);
         story_script = story_script.trim();
         storyScript = Arrays.asList(story_script.split("\n"));
-
-        root.setOnTouchListener(new OnTouchListener(){
+        
+        root.setOnClickListener(new OnClickListener(){
                 @Override
-                public boolean onTouch(View v,MotionEvent motion){
-                    if(MotionEvent.ACTION_DOWN != motion.getAction()) return true;
-                    if(scriptIndex > storyScript.size() - 1) return true;
+                public void onClick(View v){
+                    if(scriptIndex > storyScript.size() - 1) return;
 
                     String string = storyScript.get(scriptIndex);
                     scriptIndex++;
@@ -42,10 +42,9 @@ public class MainActivity extends Activity{
                     if(Command.isCommand(Command.DISPLAY_CHOICES, string)){
                         Command.runDisplayChoices(string, textview);
                     }
-                    return true;
                 }
-            });
-
+        });
+        
         imageview.setImageResource(R.drawable.card_transparent);
         imageview.setOnTouchListener(new OnTouchListener(){
                 final int CENTER_NO_TOUCH_AREA = 75;
