@@ -11,7 +11,6 @@ import java.util.Arrays;
 import android.widget.ImageView;
 
 public class MainActivity extends Activity{
-    TextView textview;
     List<String> storyScript;
     int scriptIndex = 0;
     
@@ -20,9 +19,9 @@ public class MainActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
-        textview = findViewById(R.id.textview);
         View root = findViewById(R.id.root);
-        ImageView imageview = findViewById(R.id.imageview);
+        final TextView textview = findViewById(R.id.textview);
+        final ImageView imageview = findViewById(R.id.imageview);
         String story_script = getString(R.string.story_script);
         story_script = story_script.trim();
         storyScript = Arrays.asList(story_script.split("\n"));
@@ -80,11 +79,11 @@ public class MainActivity extends Activity{
     }
     
     void triggerYes(){
-        textview.setText("Yes");
+        //do something
     }
     
     void triggerNo(){
-        textview.setText("No");
+        //do something
     }
     
     static class Command{
