@@ -78,14 +78,6 @@ public class MainActivity extends Activity{
             });
     }
 
-    void triggerYes(){
-        //do something
-    }
-
-    void triggerNo(){
-        //do something
-    }
-
     static class Command{
         final static String PREFIX = "/";
         final static String DISPLAY_CHOICES = PREFIX + "choices";
@@ -102,5 +94,13 @@ public class MainActivity extends Activity{
             textview.append("\n");
             textview.append(noString + "\t\t\t" + yesString);
         }
+    }
+    
+    void triggerYes(){
+        //do something
+    }
+
+    void triggerNo(){
+        //do something
     }
 }
