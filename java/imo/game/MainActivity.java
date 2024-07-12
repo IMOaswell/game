@@ -95,8 +95,8 @@ public class MainActivity extends Activity{
         static void runDisplayChoices(String string, TextView textview){
             string = string.substring((DISPLAY_CHOICES + '=').length());
             
-            String noString = string.substring(0, string.indexOf(':')).trim();
-            String yesString = string.substring(string.indexOf(':') + 1).trim();
+            String noString = string.substring(0, string.indexOf("::")).trim();
+            String yesString = string.substring(string.indexOf("::") + 1).trim();
             textview.append("\n");
             textview.append(noString + "\t\t\t" + yesString);
         }
