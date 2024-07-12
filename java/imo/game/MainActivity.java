@@ -39,8 +39,8 @@ public class MainActivity extends Activity{
                     if(!isCommand)
                         textview.setText(string);
                         
-                    if(Command.isCommand(Command.CHOICES, string)){
-                        Command.runChoices(string, textview);
+                    if(Command.isCommand(Command.DISPLAY_CHOICES, string)){
+                        Command.runDisplayChoices(string, textview);
                     }
                     return true;
                 }
@@ -88,12 +88,12 @@ public class MainActivity extends Activity{
     
     static class Command{
         final static String PREFIX = "/";
-        final static String CHOICES = PREFIX + "choices";
+        final static String DISPLAY_CHOICES = PREFIX + "choices";
         static boolean isCommand(String command, String input){
             return input.startsWith(command);
         }
-        static void runChoices(String string, TextView textview){
-            string = string.substring((CHOICES + '=').length());
+        static void runDisplayChoices(String string, TextView textview){
+            string = string.substring((DISPLAY_CHOICES + '=').length());
             
             String noString = string.substring(0, string.indexOf(':')).trim();
             String yesString = string.substring(string.indexOf(':') + 1).trim();
