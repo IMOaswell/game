@@ -98,7 +98,7 @@ public class MainActivity extends Activity{
             string = string.substring((DISPLAY_CHOICES + '=').length());
 
             String noString = string.substring(0, string.indexOf("::")).trim();
-            String yesString = string.substring(string.indexOf("::") + 1).trim();
+            String yesString = string.substring(string.indexOf("::") + 2).trim();
             textview.append("\n");
             textview.append(noString + "\t\t\t" + yesString);
         }
