@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
 
 public class MainActivity extends Activity{
     List<String> storyScript;
@@ -28,6 +29,7 @@ public class MainActivity extends Activity{
         String story_script = getString(R.string.story_script);
         story_script = story_script.trim();
         storyScript = Arrays.asList(story_script.split("\n"));
+        storyScript = Script.refactor(storyScript);
         
         root.setOnClickListener(new OnClickListener(){
                 @Override
@@ -87,6 +89,7 @@ public class MainActivity extends Activity{
 
     static class Command{
         final static String PREFIX = "/";
+        final static String ATTRIBUTE_PREFIX = "@";
         final static String DISPLAY_CHOICES = PREFIX + "choices";
         
         static boolean isCommand(String input){
@@ -94,6 +97,10 @@ public class MainActivity extends Activity{
         }
         static boolean isCommand(String command,String input){
             return input.startsWith(command);
+        }
+        
+        static boolean isAttribute(String input){
+            return input.startsWith(ATTRIBUTE_PREFIX);
         }
 
         static void runDisplayChoices(String string,TextView textview, View card){
@@ -128,5 +135,23 @@ public class MainActivity extends Activity{
     
     void cardInput(View card){
         deactivateCardInputs(card);
+    }
+    
+    static class Script{
+        static int parentCommandIndex = -1;
+        static List<String> refactor(List<String> script){
+            List<String> newScript = new ArrayList<>();
+            int i = 0;
+            for(String line : script){
+                if(Command.isCommand(line)) parentCommandIndex = i;
+                if(Command.isAttribute(line)){
+                    newScript.set(parentCommandIndex, newScript.get(parentCommandIndex) + "\n" + line);
+                }else{
+                    newScript.add(line);
+                }
+                i++;
+            }
+            return newScript;
+        }
     }
 }
