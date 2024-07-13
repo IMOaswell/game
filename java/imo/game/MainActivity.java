@@ -53,9 +53,11 @@ public class MainActivity extends Activity{
         imageview.setImageResource(R.drawable.card_transparent);
         imageview.setOnTouchListener(new OnTouchListener(){
                 final int CENTER_NO_TOUCH_AREA = 75;
+                int output = -1;
                 @Override
                 public boolean onTouch(View view,MotionEvent motion){
                     ImageView v = (ImageView) view;
+                    
                     if(MotionEvent.ACTION_MOVE == motion.getAction()){
                         int viewCenter = v.getWidth() / 2;
                         float x = motion.getX();
@@ -65,17 +67,19 @@ public class MainActivity extends Activity{
 
                         if(x < -CENTER_NO_TOUCH_AREA){
                             resId = R.drawable.card_left;
-                            cardInputNo(v);
+                            output = 0;
                         } 
                         if(x > CENTER_NO_TOUCH_AREA){
                             resId = R.drawable.card_right;
-                            cardInputYes(v);
+                            output = 1;
                         }
                         if(resId == -1) resId = R.drawable.card_solid;
                         v.setImageResource(resId);
                     }
                     if(MotionEvent.ACTION_UP == motion.getAction()){
                         v.setImageResource(R.drawable.card_transparent);
+                        if(output == 0) cardInputNo(v);
+                        if(output == 1) cardInputYes(v);
                     }
                     return true;
                 }
