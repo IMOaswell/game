@@ -24,7 +24,7 @@ public class MainActivity extends Activity{
 
         View root = findViewById(R.id.root);
         final TextView textview = findViewById(R.id.textview);
-        final ImageView imageview = findViewById(R.id.imageview);
+        final ImageView card = findViewById(R.id.imageview);
         String story_script = getString(R.string.story_script);
         story_script = story_script.trim();
         storyScript = Arrays.asList(story_script.split("\n"));
@@ -43,15 +43,15 @@ public class MainActivity extends Activity{
                         textview.setText(string);
 
                     if(Command.isCommand(Command.DISPLAY_CHOICES, string)){
-                        Command.runDisplayChoices(string, textview, imageview);
+                        Command.runDisplayChoices(string, textview, card);
                     }
                 }
         });
         
-        deactivateCardInputs(imageview);
+        deactivateCardInputs(card);
         
-        imageview.setImageResource(R.drawable.card_transparent);
-        imageview.setOnTouchListener(new OnTouchListener(){
+        card.setImageResource(R.drawable.card_transparent);
+        card.setOnTouchListener(new OnTouchListener(){
                 final int CENTER_NO_TOUCH_AREA = 75;
                 int output = -1;
                 @Override
@@ -116,11 +116,11 @@ public class MainActivity extends Activity{
         card.setEnabled(false);
     }
     
-    void cardInputYes(View card){
+    void cardInputNo(View card){
         cardInput(card);
     }
-
-    void cardInputNo(View card){
+    
+    void cardInputYes(View card){
         cardInput(card);
     }
     
