@@ -14,6 +14,8 @@ import java.util.List;
 public class MainActivity extends Activity{
     List<String> storyScript;
     int scriptIndex = 0;
+    static boolean pauseScript = false;
+    static boolean unpauseScriptAfterInput = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -30,6 +32,7 @@ public class MainActivity extends Activity{
         root.setOnClickListener(new OnClickListener(){
                 @Override
                 public void onClick(View v){
+                    if(pauseScript) return;
                     if(scriptIndex > storyScript.size() - 1) return;
 
                     String string = storyScript.get(scriptIndex);
@@ -40,10 +43,12 @@ public class MainActivity extends Activity{
                         textview.setText(string);
 
                     if(Command.isCommand(Command.DISPLAY_CHOICES, string)){
-                        Command.runDisplayChoices(string, textview);
+                        Command.runDisplayChoices(string, textview, imageview);
                     }
                 }
         });
+        
+        deactivateCardInputs(imageview);
         
         imageview.setImageResource(R.drawable.card_transparent);
         imageview.setOnTouchListener(new OnTouchListener(){
@@ -60,11 +65,11 @@ public class MainActivity extends Activity{
 
                         if(x < -CENTER_NO_TOUCH_AREA){
                             resId = R.drawable.card_left;
-                            triggerNo();
+                            cardInputNo(v);
                         } 
                         if(x > CENTER_NO_TOUCH_AREA){
                             resId = R.drawable.card_right;
-                            triggerYes();
+                            cardInputYes(v);
                         }
                         if(resId == -1) resId = R.drawable.card_solid;
                         v.setImageResource(resId);
@@ -85,21 +90,37 @@ public class MainActivity extends Activity{
             return input.startsWith(command);
         }
 
-        static void runDisplayChoices(String string,TextView textview){
+        static void runDisplayChoices(String string,TextView textview, View card){
             string = string.substring((DISPLAY_CHOICES + '=').length());
 
             String noString = string.substring(0, string.indexOf("::")).trim();
             String yesString = string.substring(string.indexOf("::") + 2).trim();
             textview.append("\n");
             textview.append(noString + "\t\t\t" + yesString);
+            activateCardInputs(true, card);
         }
     }
     
-    void triggerYes(){
-        //do something
+    static void activateCardInputs(boolean unpauseScriptAfter, View card){
+        pauseScript = true;
+        card.setEnabled(true);
+        unpauseScriptAfterInput = unpauseScriptAfter;
+    }
+    
+    static void deactivateCardInputs(View card){
+        if(unpauseScriptAfterInput) pauseScript = false;
+        card.setEnabled(false);
+    }
+    
+    void cardInputYes(View card){
+        cardInput(card);
     }
 
-    void triggerNo(){
-        //do something
+    void cardInputNo(View card){
+        cardInput(card);
+    }
+    
+    void cardInput(View card){
+        deactivateCardInputs(card);
     }
 }
