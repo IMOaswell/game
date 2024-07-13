@@ -38,8 +38,7 @@ public class MainActivity extends Activity{
                     String string = storyScript.get(scriptIndex);
                     scriptIndex++;
 
-                    boolean isCommand = string.startsWith(Command.PREFIX);
-                    if(!isCommand)
+                    if(!Command.isCommand(string))
                         textview.setText(string);
 
                     if(Command.isCommand(Command.DISPLAY_CHOICES, string)){
@@ -90,6 +89,9 @@ public class MainActivity extends Activity{
         final static String PREFIX = "/";
         final static String DISPLAY_CHOICES = PREFIX + "choices";
         
+        static boolean isCommand(String input){
+            return input.startsWith(PREFIX);
+        }
         static boolean isCommand(String command,String input){
             return input.startsWith(command);
         }
