@@ -140,6 +140,11 @@ public class MainActivity extends Activity{
     static class Script{
         static int parentCommandIndex = -1;
         static List<String> refactor(List<String> script){
+            script = linkCommandAttributes(script);
+            return script;
+        }
+        
+        private static List<String> linkCommandAttributes(List<String> script){
             List<String> newScript = new ArrayList<>();
             int i = 0;
             for(String line : script){
