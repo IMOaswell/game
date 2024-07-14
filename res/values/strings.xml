@@ -9,8 +9,6 @@ a bird on the ground looking at u
 it flaps away
 do u wanna follow it?
 /choices=no::ok
-@no= u did nothing:(
-@yes= u followed it yey
 "
     </string>
 </resources>
