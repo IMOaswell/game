@@ -38,14 +38,8 @@ public class MainActivity extends Activity{
                     if(scriptIndex > storyScript.size() - 1) return;
 
                     String string = storyScript.get(scriptIndex);
+                    Script.displayOrRunString(string, textview, card);
                     scriptIndex++;
-
-                    if(!Command.isCommand(string))
-                        textview.setText(string);
-
-                    if(Command.isCommand(Command.DISPLAY_CHOICES, string)){
-                        Command.runDisplayChoices(string, textview, card);
-                    }
                 }
         });
         
@@ -139,6 +133,16 @@ public class MainActivity extends Activity{
     
     static class Script{
         static int parentCommandIndex = -1;
+        
+        static void displayOrRunString(String string, TextView textview, View card){
+            if(!Command.isCommand(string))
+                textview.setText(string);
+
+            if(Command.isCommand(Command.DISPLAY_CHOICES, string)){
+                Command.runDisplayChoices(string, textview, card);
+            }
+        }
+        
         static List<String> refactor(List<String> script){
             script = linkCommandAttributes(script);
             return script;
