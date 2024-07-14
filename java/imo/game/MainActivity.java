@@ -39,7 +39,7 @@ public class MainActivity extends Activity{
                     if(scriptIndex > storyScript.size() - 1) return;
 
                     String string = storyScript.get(scriptIndex);
-                    Script.displayOrRunString(string, textview, card);
+                    Script.runString(string, textview, card);
                     scriptIndex++;
                 }
         });
@@ -85,7 +85,7 @@ public class MainActivity extends Activity{
     static class Script{
         static int parentCommandIndex = -1;
 
-        static void displayOrRunString(String string, TextView textview, View card){
+        static void runString(String string, TextView textview, View card){
             if(!Command.isCommand(string))
                 textview.setText(string);
 
@@ -141,7 +141,7 @@ public class MainActivity extends Activity{
             String[] stringParts = string.split("\n", 2);
             
             String command = stringParts[0];
-            command = command.substring((DISPLAY_CHOICES + '=').length());
+            command = command.split("=", 2)[1];
             String noString = command.substring(0, command.indexOf("::")).trim();
             String yesString = command.substring(command.indexOf("::") + 2).trim();
             textview.append("\n");
@@ -154,14 +154,14 @@ public class MainActivity extends Activity{
                     onCardInputNo = new Runnable(){
                         @Override
                         public void run(){
-                            Script.displayOrRunString(script, textview, card);
+                            Script.runString(script, textview, card);
                         }
                     };
                 if(attribute.startsWith(Attribute.ON_YES)) 
                     onCardInputYes = new Runnable(){
                         @Override
                         public void run(){
-                            Script.displayOrRunString(script, textview, card);
+                            Script.runString(script, textview, card);
                         }
                     };
             }
