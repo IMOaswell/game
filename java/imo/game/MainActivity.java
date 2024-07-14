@@ -8,15 +8,16 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.ArrayList;
 
 public class MainActivity extends Activity{
     List<String> storyScript;
     int scriptIndex = 0;
     static boolean pauseScript = false;
     static boolean unpauseScriptAfterInput = true;
+    static Runnable onCardInputNo, onCardInputYes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -116,8 +117,14 @@ public class MainActivity extends Activity{
     
     static class Command{
         final static String PREFIX = "/";
-        final static String ATTRIBUTE_PREFIX = "@";
         final static String DISPLAY_CHOICES = PREFIX + "choices";
+        
+        static class Attribute{
+            final static String PREFIX = "@";
+            final static String ON_NO = PREFIX + "no";
+            final static String ON_YES = PREFIX + "yes";
+            
+        }
         
         static boolean isCommand(String input){
             return input.startsWith(PREFIX);
@@ -127,16 +134,38 @@ public class MainActivity extends Activity{
         }
         
         static boolean isAttribute(String input){
-            return input.startsWith(ATTRIBUTE_PREFIX);
+            return input.startsWith(Attribute.PREFIX);
         }
 
-        static void runDisplayChoices(String string,TextView textview, View card){
-            string = string.substring((DISPLAY_CHOICES + '=').length());
-
-            String noString = string.substring(0, string.indexOf("::")).trim();
-            String yesString = string.substring(string.indexOf("::") + 2).trim();
+        static void runDisplayChoices(String string, final TextView textview, final View card){
+            String[] stringParts = string.split("\n", 2);
+            
+            String command = stringParts[0];
+            command = command.substring((DISPLAY_CHOICES + '=').length());
+            String noString = command.substring(0, command.indexOf("::")).trim();
+            String yesString = command.substring(command.indexOf("::") + 2).trim();
             textview.append("\n");
             textview.append(noString + "\t\t\t" + yesString);
+            
+            String[] attributes = stringParts[1].split("\n");
+            for(final String attribute : attributes){
+                final String script = attribute.split("=", 2)[1];
+                if(attribute.startsWith(Attribute.ON_NO)) 
+                    onCardInputNo = new Runnable(){
+                        @Override
+                        public void run(){
+                            Script.displayOrRunString(script, textview, card);
+                        }
+                    };
+                if(attribute.startsWith(Attribute.ON_YES)) 
+                    onCardInputYes = new Runnable(){
+                        @Override
+                        public void run(){
+                            Script.displayOrRunString(script, textview, card);
+                        }
+                    };
+            }
+            
             activateCardInputs(true, card);
         }
     }
@@ -153,10 +182,20 @@ public class MainActivity extends Activity{
     }
     
     void cardInputNo(View card){
+        if(onCardInputNo != null){
+            onCardInputNo.run();
+            onCardInputNo = null;
+            System.out.println("working:D");
+        } 
         cardInput(card);
     }
     
     void cardInputYes(View card){
+        if(onCardInputYes != null){
+            onCardInputYes.run();
+            onCardInputYes = null;
+            System.out.println("working:D");
+        } 
         cardInput(card);
     }
     
