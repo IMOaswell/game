@@ -80,7 +80,40 @@ public class MainActivity extends Activity{
                 }
             });
     }
+    
+    static class Script{
+        static int parentCommandIndex = -1;
 
+        static void displayOrRunString(String string, TextView textview, View card){
+            if(!Command.isCommand(string))
+                textview.setText(string);
+
+            if(Command.isCommand(Command.DISPLAY_CHOICES, string)){
+                Command.runDisplayChoices(string, textview, card);
+            }
+        }
+
+        static List<String> refactor(List<String> script){
+            script = linkCommandAttributes(script);
+            return script;
+        }
+
+        private static List<String> linkCommandAttributes(List<String> script){
+            List<String> newScript = new ArrayList<>();
+            int i = 0;
+            for(String line : script){
+                if(Command.isCommand(line)) parentCommandIndex = i;
+                if(Command.isAttribute(line)){
+                    newScript.set(parentCommandIndex, newScript.get(parentCommandIndex) + "\n" + line);
+                }else{
+                    newScript.add(line);
+                }
+                i++;
+            }
+            return newScript;
+        }
+    }
+    
     static class Command{
         final static String PREFIX = "/";
         final static String ATTRIBUTE_PREFIX = "@";
@@ -129,38 +162,5 @@ public class MainActivity extends Activity{
     
     void cardInput(View card){
         deactivateCardInputs(card);
-    }
-    
-    static class Script{
-        static int parentCommandIndex = -1;
-        
-        static void displayOrRunString(String string, TextView textview, View card){
-            if(!Command.isCommand(string))
-                textview.setText(string);
-
-            if(Command.isCommand(Command.DISPLAY_CHOICES, string)){
-                Command.runDisplayChoices(string, textview, card);
-            }
-        }
-        
-        static List<String> refactor(List<String> script){
-            script = linkCommandAttributes(script);
-            return script;
-        }
-        
-        private static List<String> linkCommandAttributes(List<String> script){
-            List<String> newScript = new ArrayList<>();
-            int i = 0;
-            for(String line : script){
-                if(Command.isCommand(line)) parentCommandIndex = i;
-                if(Command.isAttribute(line)){
-                    newScript.set(parentCommandIndex, newScript.get(parentCommandIndex) + "\n" + line);
-                }else{
-                    newScript.add(line);
-                }
-                i++;
-            }
-            return newScript;
-        }
     }
 }
