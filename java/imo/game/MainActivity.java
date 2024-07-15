@@ -119,11 +119,22 @@ public class MainActivity extends Activity{
         
         static void runChooser(String command, final TextView textview, final View card){
             command = command.split("=", 2)[1].trim();
-            String noString = command.split("\\|", 2)[0].trim();
-            String yesString = command.split("\\|", 2)[1].trim();
+            final String noString = command.split("\\|", 2)[0].trim();
+            final String yesString = command.split("\\|", 2)[1].trim();
             textview.append("\n");
             textview.append(noString + "\t\t\t" + yesString);
+            
             activateCardInputs(true, card);
+            onCardInputNo = new Runnable(){
+                public void run(){
+                    Script.runString(noString);
+                }
+            };
+            onCardInputYes = new Runnable(){
+                public void run(){
+                    Script.runString(yesString);
+                }
+            };
         }
         
         static void runGoback(String command){
