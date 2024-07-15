@@ -13,20 +13,24 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends Activity{
-    List<String> storyScript;
+    static List<String> storyScript;
     static int scriptIndex = 0;
     static boolean pauseScript = false;
     static boolean unpauseScriptAfterInput = true;
     static Runnable onCardInputNo, onCardInputYes;
+    static View root;
+    static TextView textview;
+    static ImageView card;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        View root = findViewById(R.id.root);
-        final TextView textview = findViewById(R.id.textview);
-        final ImageView card = findViewById(R.id.imageview);
+        root = findViewById(R.id.root);
+        textview = findViewById(R.id.textview);
+        card = findViewById(R.id.imageview);
         String story_script = getString(R.string.story_script);
         story_script = story_script.trim();
         storyScript = Arrays.asList(story_script.split("\n"));
@@ -35,11 +39,7 @@ public class MainActivity extends Activity{
                 @Override
                 public void onClick(View v){
                     if(pauseScript) return;
-                    if(scriptIndex > storyScript.size() - 1) return;
-
-                    String string = storyScript.get(scriptIndex);
-                    Script.runString(string, textview, card);
-                    scriptIndex++;
+                    Script.continueScript();
                 }
         });
         
@@ -83,8 +83,16 @@ public class MainActivity extends Activity{
     
     static class Script{
         static int parentCommandIndex = -1;
+        
+        static void continueScript(){
+            if(scriptIndex > storyScript.size() - 1) return;
 
-        static void runString(String string, TextView textview, View card){
+            String string = storyScript.get(scriptIndex);
+            scriptIndex++;
+            Script.runString(string);
+        }
+
+        static void runString(String string){
             if(!Command.isCommand(string))
                 textview.setText(string);
 
@@ -125,6 +133,7 @@ public class MainActivity extends Activity{
                 value = Integer.parseInt(command);
             }catch(NumberFormatException e){}
             scriptIndex -= value;
+            Script.continueScript();
         }
     }
     
