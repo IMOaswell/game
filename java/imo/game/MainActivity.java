@@ -138,11 +138,17 @@ public class MainActivity extends Activity{
         }
         
         static void runGoback(String command){
+            if(!command.contains("=")){
+                scriptIndex -= 2; //minus this command as well
+                Script.continueScript();
+                return;
+            }
             command = command.split("=", 2)[1].trim();
             int value = 0;
             try{
                 value = Integer.parseInt(command);
             }catch(NumberFormatException e){}
+            if(value == 0) value = 1;
             scriptIndex -= value + 1;
             Script.continueScript();
         }
