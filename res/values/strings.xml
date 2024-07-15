@@ -8,7 +8,7 @@
 a bird on the ground looking at u
 it flaps away
 do u wanna follow it?
-/choices=no::ok
+/choices= no | ok
 "
     </string>
 </resources>

@@ -107,8 +107,8 @@ public class MainActivity extends Activity{
         
         static void runDisplayChoices(String command, final TextView textview, final View card){
             command = command.split("=", 2)[1];
-            String noString = command.substring(0, command.indexOf("::")).trim();
-            String yesString = command.substring(command.indexOf("::") + 2).trim();
+            String noString = command.split("\\|", 2)[0].trim();
+            String yesString = command.split("\\|", 2)[1].trim();
             textview.append("\n");
             textview.append(noString + "\t\t\t" + yesString);
             activateCardInputs(true, card);
@@ -127,24 +127,17 @@ public class MainActivity extends Activity{
     }
     
     void cardInputNo(View card){
-        if(onCardInputNo != null){
-            onCardInputNo.run();
-            onCardInputNo = null;
-            System.out.println("working:D");
-        } 
-        cardInput(card);
+        cardInput(card, onCardInputNo);
     }
     
     void cardInputYes(View card){
-        if(onCardInputYes != null){
-            onCardInputYes.run();
-            onCardInputYes = null;
-            System.out.println("working:D");
-        } 
-        cardInput(card);
+        cardInput(card, onCardInputYes);
     }
     
-    void cardInput(View card){
+    private void cardInput(View card, Runnable runnable){
         deactivateCardInputs(card);
+        if(runnable == null) return;
+        runnable.run();
+        runnable = null;
     }
 }
