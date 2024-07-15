@@ -143,7 +143,7 @@ public class MainActivity extends Activity{
             try{
                 value = Integer.parseInt(command);
             }catch(NumberFormatException e){}
-            scriptIndex -= value;
+            scriptIndex -= value + 1;
             Script.continueScript();
         }
     }
