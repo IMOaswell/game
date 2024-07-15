@@ -9,6 +9,7 @@ a bird on the ground looking at u
 it flaps away
 do u wanna follow it?
 /chooser= no | ok
+/goback= 3
 "
     </string>
 </resources>

@@ -14,7 +14,7 @@ import java.util.List;
 
 public class MainActivity extends Activity{
     List<String> storyScript;
-    int scriptIndex = 0;
+    static int scriptIndex = 0;
     static boolean pauseScript = false;
     static boolean unpauseScriptAfterInput = true;
     static Runnable onCardInputNo, onCardInputYes;
@@ -91,12 +91,16 @@ public class MainActivity extends Activity{
             if(Command.isCommand(Command.CHOOSER, string)){
                 Command.runChooser(string, textview, card);
             }
+            if(Command.isCommand(Command.GOBACK, string)){
+                Command.runGoback(string);
+            }
         }
     }
     
     static class Command{
         final static String PREFIX = "/";
         final static String CHOOSER = PREFIX + "chooser";
+        final static String GOBACK = PREFIX + "goback";
         
         static boolean isCommand(String input){
             return input.startsWith(PREFIX);
@@ -106,12 +110,21 @@ public class MainActivity extends Activity{
         }
         
         static void runChooser(String command, final TextView textview, final View card){
-            command = command.split("=", 2)[1];
+            command = command.split("=", 2)[1].trim();
             String noString = command.split("\\|", 2)[0].trim();
             String yesString = command.split("\\|", 2)[1].trim();
             textview.append("\n");
             textview.append(noString + "\t\t\t" + yesString);
             activateCardInputs(true, card);
+        }
+        
+        static void runGoback(String command){
+            command = command.split("=", 2)[1].trim();
+            int value = 0;
+            try{
+                value = Integer.parseInt(command);
+            }catch(NumberFormatException e){}
+            scriptIndex -= value;
         }
     }
     
