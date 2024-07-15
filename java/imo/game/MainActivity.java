@@ -93,8 +93,16 @@ public class MainActivity extends Activity{
         }
 
         static void runString(String string){
-            if(!Command.isCommand(string))
-                textview.setText(string);
+            if(!Command.isCommand(string)){
+                //look for command in string
+                String command = Command.getCommand(string);
+                
+                if(command == null) textview.setText(string);
+                if(command != null){
+                    textview.setText(string.replace(command, ""));
+                    Script.runString(command);
+                }
+            }
 
             if(Command.isCommand(Command.CHOOSER, string)){
                 Command.runChooser(string, textview, card);
@@ -115,6 +123,14 @@ public class MainActivity extends Activity{
         }
         static boolean isCommand(String command,String input){
             return input.startsWith(command);
+        }
+        
+        static String getCommand(String input){
+            String output;
+            if(!input.contains(PREFIX)) return null;
+            output = input.split(PREFIX, 2)[1];
+            output = PREFIX + output;
+            return output;
         }
         
         static void runChooser(String command, final TextView textview, final View card){
