@@ -8,7 +8,7 @@
 a bird on the ground looking at u
 it flaps away
 do u wanna follow it?
-/chooser= /goback | ok
+/chooser= /goback= 1 | ok
 u followed it:D
 "
     </string>
