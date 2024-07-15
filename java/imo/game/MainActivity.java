@@ -88,15 +88,15 @@ public class MainActivity extends Activity{
             if(!Command.isCommand(string))
                 textview.setText(string);
 
-            if(Command.isCommand(Command.DISPLAY_CHOICES, string)){
-                Command.runDisplayChoices(string, textview, card);
+            if(Command.isCommand(Command.CHOOSER, string)){
+                Command.runChooser(string, textview, card);
             }
         }
     }
     
     static class Command{
         final static String PREFIX = "/";
-        final static String DISPLAY_CHOICES = PREFIX + "choices";
+        final static String CHOOSER = PREFIX + "chooser";
         
         static boolean isCommand(String input){
             return input.startsWith(PREFIX);
@@ -105,7 +105,7 @@ public class MainActivity extends Activity{
             return input.startsWith(command);
         }
         
-        static void runDisplayChoices(String command, final TextView textview, final View card){
+        static void runChooser(String command, final TextView textview, final View card){
             command = command.split("=", 2)[1];
             String noString = command.split("\\|", 2)[0].trim();
             String yesString = command.split("\\|", 2)[1].trim();
