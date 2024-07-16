@@ -75,6 +75,7 @@ public class MainActivity extends Activity{
                         v.setImageResource(R.drawable.card_transparent);
                         if(output == 0) cardInputNo(v);
                         if(output == 1) cardInputYes(v);
+                        output = -1;
                     }
                     return true;
                 }
