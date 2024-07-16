@@ -93,16 +93,21 @@ public class MainActivity extends Activity{
             Script.runString(string);
         }
 
+        static void displayString(String string){
+            textview.setText(string);
+        }
+
         static void runString(String string){
-            if(!Command.isCommand(string)){
+            if(Command.isNotCommand(string)){
                 //look for command in string
                 String command = Command.getCommand(string);
                 
-                if(command == null) textview.setText(string);
+                if(command == null) displayString(string);
                 if(command != null){
-                    textview.setText(string.replace(command, ""));
+                    displayString(string.replace(command, ""));
                     Script.runString(command);
                 }
+                return;
             }
 
             if(Command.isCommand(Command.CHOOSER, string)){
@@ -118,7 +123,10 @@ public class MainActivity extends Activity{
         final static String PREFIX = "/";
         final static String CHOOSER = PREFIX + "chooser";
         final static String GOBACK = PREFIX + "goback";
-        
+
+        static boolean isNotCommand(String input){
+            return !isCommand(input);
+        }
         static boolean isCommand(String input){
             return input.startsWith(PREFIX);
         }
